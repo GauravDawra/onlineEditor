@@ -1,0 +1,23 @@
+{
+  "name": "onlineeditor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codemirror": "^5.62.0",
+    "compile-run": "^2.3.4",
+    "express": "^4.17.1",
+    "fs": "*",
+    "html": "^1.0.0",
+    "http": "*",
+    "socket.io": "^4.1.2"
+  },
+  "engines": {
+    "node": "15.x"
+  }
+}
