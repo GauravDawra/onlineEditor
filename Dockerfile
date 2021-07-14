@@ -14,4 +14,5 @@ RUN npm install
 COPY . /app
 CMD ["npm", "start"]
 
+# use to build: docker build -t online-editor:latest . 
 # use to run: docker run --rm -p 3000:3000 -it  online-editor:latest
