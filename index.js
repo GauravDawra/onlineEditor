@@ -19,7 +19,6 @@ app.set('view engine', 'html');
 
 app.get('/', (req, res)=>{
     res.sendFile(__dirname + '/index.html');
-    console.log("het");
 });
 
 const runCode = async (source, stdin) => {
