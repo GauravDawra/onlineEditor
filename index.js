@@ -7,7 +7,7 @@ const { cpp } = require('compile-run');
 const app = express();
 
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+// const io = require('socket.io')(http);
 
 const port = process.env.PORT || 3000;
 
@@ -26,32 +26,32 @@ const runCode = async (source, stdin) => {
     return ans;
 }
 
+// const runViaSourceFile = async (sourceFile, stdin) => { // not tested yet
+//     cpp.runFile(__dirname + "/" + sourceFile, (err, result) => {
+//         if(err){
+//             console.log(err);
+//             return err;
+//         }
+//         else{
+//             return result;
+//         }
+//     });
+// }
+
 app.post('/process', (req, res) => {
-    
+    /*Run below code to write to a file */
     // fs.writeFile(__dirname + '/test.cpp', req.body.inpCode, err => {
     //     if (err) {
     //         console.error(err);
     //         return;
     //     }
     // });
+
     let outResult = runCode(req.body.inpCode, req.body.stdin)
     .then(run => res.send(run));
-    // cpp.runFile(__dirname + "/test.cpp", (err, result) => {
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //     else{
-    //         // console.log(result);
-    //         outResult = result;
-    //     }
-    //     res.send(outResult);
-    //     // if(result.exitCode == 0) {
-    //     // }
-    //     // res.send(result.stdout);
-    // });
 });
 
-http.listen(port, ()=>{
+http.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
 

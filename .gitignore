@@ -2,3 +2,5 @@
 src
 test*
 prism*
+
+.vscode
