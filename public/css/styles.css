@@ -1,0 +1,82 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    /* overflow: hidden;  */
+}
+
+.code {
+    /* display: flex; */
+    position: relative;
+    height: 75%;
+    width: 100%;
+}
+
+.CodeMirror {
+    font-family: Inconsolata, monospace;
+    font-size: 19px;
+    height: 100%;
+    /* resize: vertical; */
+}
+
+#compileAndRun {
+    z-index: 100;
+    float: right;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: white;
+    height: 60px;
+    width: 60px;
+    border: none;
+    font-size: 30px;
+    font-weight: 500;
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 100%;
+}
+
+body{
+    color: red;
+}
+
+.in-out-container {
+    width: 100%;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    height: 25%;
+}
+
+#stdin {
+    flex: 1;
+    float: left;
+    left: 0;
+    /* height: 200px; */
+    height: 100%;
+    width: 50%;
+}
+#stdout {
+    margin-right: 0;
+    float: right;
+    /* height: 200px; */
+    height: 100%;
+    width: 50%;
+}
+
+.vert {
+    flex: 0.005;
+    position: relative;
+    background-color: rgba(53, 46, 44, 0.746);
+    width: 0.5%;
+    height: 100%;
+    float: left;
+    cursor: col-resize;
+}
+.hori {
+    position: relative;
+    background-color: rgba(53, 46, 44, 0.746);
+    height: 0.5%;
+    width: 100%;
+    cursor: row-resize;
+}

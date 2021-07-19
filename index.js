@@ -1,5 +1,7 @@
 // let execFile = require('child_process').execFile
+require('dotenv').config();
 const { execSync, execFile } = require('child_process');
+const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const { cpp } = require('compile-run');
@@ -7,17 +9,28 @@ const { cpp } = require('compile-run');
 const app = express();
 
 const http = require('http').Server(app);
-// const io = require('socket.io')(http);
+
+const { auth, requiresAuth } = require('express-openid-connect');
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    baseURL: process.env.BASE_URL,
+    clientID: process.env.CLIENT_ID,
+    issuerBaseURL: process.env.ISSUER_BASE_URL,
+    secret: process.env.SECRET
+}; app.use(auth(config));
 
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.static(__dirname + '/'));
-app.use(express.static(__dirname +  '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname , 'vendor')));
+app.use('/codemirror', express.static(__dirname + '/node_modules/codemirror'));
 app.set('view engine', 'html');
 
-app.get('/', (req, res)=>{
+app.get('/', requiresAuth(), (req, res) => {
+    // use req.oidc.isAuthenticated() to check if authenticated 
     res.sendFile(__dirname + '/index.html');
 });
 
@@ -39,15 +52,7 @@ const runCode = async (source, stdin) => {
 // }
 
 app.post('/process', (req, res) => {
-    /*Run below code to write to a file */
-    // fs.writeFile(__dirname + '/test.cpp', req.body.inpCode, err => {
-    //     if (err) {
-    //         console.error(err);
-    //         return;
-    //     }
-    // });
-
-    let outResult = runCode(req.body.inpCode, req.body.stdin)
+    runCode(req.body.inpCode, req.body.stdin)
     .then(run => res.send(run));
 });
 
