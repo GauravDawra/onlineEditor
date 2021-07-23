@@ -4,21 +4,21 @@ const { execSync, execFile } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
-const { cpp } = require('compile-run');
+const { cpp, python } = require('compile-run');
 
 const app = express();
 
 const http = require('http').Server(app);
 
 const { auth, requiresAuth } = require('express-openid-connect');
-const config = {
-    authRequired: false,
-    auth0Logout: true,
-    baseURL: process.env.BASE_URL,
-    clientID: process.env.CLIENT_ID,
-    issuerBaseURL: process.env.ISSUER_BASE_URL,
-    secret: process.env.SECRET
-}; app.use(auth(config));
+// const config = {
+//     authRequired: false,
+//     auth0Logout: true,
+//     baseURL: process.env.BASE_URL,
+//     clientID: process.env.CLIENT_ID,
+//     issuerBaseURL: process.env.ISSUER_BASE_URL,
+//     secret: process.env.SECRET
+// }; app.use(auth(config));
 
 const port = process.env.PORT || 3000;
 
@@ -29,13 +29,22 @@ app.use(express.static(path.join(__dirname , 'vendor')));
 app.use('/codemirror', express.static(__dirname + '/node_modules/codemirror'));
 app.set('view engine', 'html');
 
-app.get('/', requiresAuth(), (req, res) => {
+app.get('/', (req, res) => { // add requiresAuth() middleware if you want necessary authentication
     // use req.oidc.isAuthenticated() to check if authenticated 
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/public/views/html/index.html');
 });
 
-const runCode = async (source, stdin) => {
-    let ans = await cpp.runSource(source, { stdin: stdin });
+const runCode = async (source, stdin, language) => {
+    let ans;
+    switch(language) {
+        case "C++":
+            ans = await cpp.runSource(source, { stdin: stdin });
+            break;
+        case "Python":
+            ans = await python.runSource(source, { stdin: stdin });
+            break;
+    }
+    // let ans = await cpp.runSource(source, { stdin: stdin });
     return ans;
 }
 
@@ -52,7 +61,7 @@ const runCode = async (source, stdin) => {
 // }
 
 app.post('/process', (req, res) => {
-    runCode(req.body.inpCode, req.body.stdin)
+    runCode(req.body.inpCode, req.body.stdin, req.body.language)
     .then(run => res.send(run));
 });
 

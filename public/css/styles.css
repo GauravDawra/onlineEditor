@@ -1,15 +1,20 @@
 html, body {
     width: 100%;
     height: 100%;
-    margin: 0px;
-    padding: 0px;
-    /* overflow: hidden;  */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; 
 }
 
 .code {
-    /* display: flex; */
     position: relative;
-    height: 75%;
+    height: 74.75%;
     width: 100%;
 }
 
@@ -20,8 +25,26 @@ html, body {
     /* resize: vertical; */
 }
 
+.CodeMirror-linenumber {
+    padding: 1px 8px 0 20px;
+}
+
+#lang {
+    z-index: 3;
+    float: right;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    height: 30px;
+    width: 100px;
+    border-radius: 20px;
+    font-size: 20px;
+    display: flex;
+    text-align: center;
+}
+
 #compileAndRun {
-    z-index: 100;
+    z-index: 2;
     float: right;
     position: absolute;
     right: 20px;
@@ -30,10 +53,8 @@ html, body {
     height: 60px;
     width: 60px;
     border: none;
-    font-size: 30px;
-    font-weight: 500;
-    font-family: 'Courier New', Courier, monospace;
     border-radius: 100%;
+    cursor: pointer;
 }
 
 body{
@@ -43,25 +64,35 @@ body{
 .in-out-container {
     width: 100%;
     display: flex;
+    flex-direction: row;
     padding: 0;
     margin: 0;
-    height: 25%;
+    height: 24.75%;
 }
 
 #stdin {
+    padding: 0;
     flex: 1;
-    float: left;
     left: 0;
-    /* height: 200px; */
     height: 100%;
     width: 50%;
+    background-color: black;
+    color: white;
+    border: none;
+    font-size: 17px;
+    resize: none;
 }
 #stdout {
+    padding: 0;
     margin-right: 0;
-    float: right;
     /* height: 200px; */
     height: 100%;
     width: 50%;
+    background-color: black;
+    color: white;
+    border: none;
+    font-size: 17px;
+    /* resize: none; */
 }
 
 .vert {

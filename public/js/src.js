@@ -11,7 +11,8 @@ compileAndRun.addEventListener('click', (event) => {
         method: "POST",
         body: JSON.stringify({
             stdin: stdin.value,
-            inpCode: getCode()
+            inpCode: getCode(),
+            language: getLang()
         }),
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -22,17 +23,17 @@ compileAndRun.addEventListener('click', (event) => {
     .then(json => {
         console.log(json);
         if(json.stderr) {
+            stdout.style.color = "red";
             stdout.value = json.stderr;
-            stdout.style.color = red;
         }
         else {
-            stdout.style.color = black;
+            console.log("hello");
+            stdout.style.color = "white";
             stdout.value = json.stdout;
         }
     });
 });
 
-console.log("hello");
 // resizer js here
 var startXVerti, startWidthIn, startWidthOut;
 let vertResizer = document.querySelector('.vert');
@@ -41,7 +42,6 @@ const vertMouseDown = (e) => {
     startWidthIn = parseInt(document.defaultView.getComputedStyle(stdin).width, 10);
     startWidthOut = parseInt(document.defaultView.getComputedStyle(stdout).width, 10);
 
-    // console.log(document.defaultView.getComputedStyle(stdin).width + "hello");
     window.addEventListener('mousemove', vertDoDrag, false);
     window.addEventListener('mouseup', vertStopDrag, false);
 }
@@ -65,15 +65,17 @@ let codeContainer = document.querySelector('.code');
 
 const horiMouseDown = (e) => {
     startYHori = e.clientY;
-    startHeightCode = parseInt(document.defaultView.getComputedStyle(codeContainer).height, 10);
-    startHeightInOut = parseInt(document.defaultView.getComputedStyle(inOut).height, 10);
+    startHeightCode = parseFloat(document.defaultView.getComputedStyle(codeContainer).height, 10);
+    startHeightInOut = parseFloat(document.defaultView.getComputedStyle(inOut).height, 10);
     window.addEventListener('mousemove', horiDoDrag, false);
     window.addEventListener('mouseup', horiStopDrag, false);
 }
 
 const horiDoDrag = (e) => {
-    codeContainer.style.height = (startHeightCode + e.clientY - startYHori) + 'px';
-    inOut.style.height = (startHeightInOut - e.clientY + startYHori) + 'px';
+    let dif = e.clientY - startYHori;
+    console.log(dif);
+    codeContainer.style.height = (startHeightCode + dif) + 'px';
+    inOut.style.height = (startHeightInOut - dif) + 'px';
 }
 
 const horiStopDrag = (e) => {
@@ -82,6 +84,3 @@ const horiStopDrag = (e) => {
 }
 
 horiResizer.addEventListener('mousedown', horiMouseDown);
-
-
-
