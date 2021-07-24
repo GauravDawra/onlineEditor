@@ -36,12 +36,12 @@ app.get('/', (req, res) => { // add requiresAuth() middleware if you want necess
 
 const runCode = async (source, stdin, language) => {
     let ans;
-    switch(language) {
+    switch (language) {
         case "C++":
             ans = await cpp.runSource(source, { stdin: stdin });
             break;
         case "Python":
-            ans = await python.runSource(source, { stdin: stdin });
+            ans = await python.runSource(source, { stdin: stdin, executionPath : 'python3' });
             break;
     }
     // let ans = await cpp.runSource(source, { stdin: stdin });
@@ -68,4 +68,3 @@ app.post('/process', (req, res) => {
 http.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
-
